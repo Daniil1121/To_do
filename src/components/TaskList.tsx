@@ -13,6 +13,7 @@ import updateOrDeleteTask from "../utils/db/updateOrDeleteTask";
 import AddNewTask from "../utils/db/AddNewTask";
 import { ITask } from "../utils/interfaces";
 import sortTask from "../utils/sortTask";
+import { deleteObject, getStorage, ref } from "firebase/storage";
 
 const TaskList = (): React.ReactElement => {
   const [tasks, setTasks] = useState<ITask[] | []>([]);
@@ -57,10 +58,14 @@ const TaskList = (): React.ReactElement => {
     />
   ));
 
+  console.log(window.innerWidth, window.outerWidth);
+
   return (
     <>
       <div className="task_area">
-        <span>{dayjs().locale(ruLocale).format("dddd, DD MMMM")}</span>
+        <span className="today_date">
+          {dayjs().locale(ruLocale).format("dddd, DD MMMM")}
+        </span>
         <div className="task_list">
           {ACTIVE_TASK}
           {!!completedTasksArray.length && (
@@ -91,6 +96,7 @@ const TaskList = (): React.ReactElement => {
           </Portal>
         )}
       </div>
+
       {selectedTask && (
         <RightBar
           updateOrDeleteTaskHandler={updateOrDeleteTaskHandler}

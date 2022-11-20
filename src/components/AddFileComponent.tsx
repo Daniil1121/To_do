@@ -27,7 +27,11 @@ const AddFileComponent = ({
   };
 
   const uploadFilesHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    uploadFiles(e, setError, setPending, setFiles, taskId);
+    let duplicateNameMarker = false;
+    if (files.some((item) => item.name === e.target.files![0].name)) {
+      duplicateNameMarker = true;
+    }
+    uploadFiles(e, setError, setPending, setFiles, taskId, duplicateNameMarker);
   };
 
   const IMAGES_BLOCK = files
@@ -51,7 +55,7 @@ const AddFileComponent = ({
           +
         </div>
         <img src={item.url} alt="" />
-        {item.name}
+        <span>{item.name}</span>
       </div>
     ));
 

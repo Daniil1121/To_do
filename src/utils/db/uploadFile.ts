@@ -11,13 +11,19 @@ const uploadFiles = (
   setError: React.Dispatch<React.SetStateAction<string>>,
   setPending: React.Dispatch<React.SetStateAction<boolean>>,
   setFiles: React.Dispatch<React.SetStateAction<IFileData[]>>,
-  taskId: string
+  taskId: string,
+  duplicateNameMarker: boolean
 ) => {
   setError("");
+  const random = (Math.random() + 1).toString(36).substring(7);
   const storage = getStorage();
   const storageRef = ref(
     storage,
-    "images/" + taskId + "/" + e.target.files![0].name
+    "images/" +
+      taskId +
+      "/" +
+      (duplicateNameMarker ? random : "") +
+      e.target.files![0].name
   );
   setPending(true);
   uploadBytesResumable(storageRef, e.target.files![0])
@@ -26,7 +32,7 @@ const uploadFiles = (
         setFiles((prev) => [
           {
             url: downloadURL,
-            name: e.target.files![0].name,
+            name: (duplicateNameMarker ? random : "") + e.target.files![0].name,
             type: e.target.files![0].type,
           },
           ...prev,

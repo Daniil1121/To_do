@@ -88,6 +88,7 @@ const PopUp = ({
         <div className="input_field">
           <label htmlFor="description">Description</label>
           <input
+            maxLength={120}
             onChange={changeDescriptionHandler}
             value={description}
             type="text"

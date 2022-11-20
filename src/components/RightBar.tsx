@@ -86,6 +86,7 @@ const RightBar = ({
       <div className="input_field">
         <label htmlFor="title">Title</label>
         <input
+          maxLength={60}
           type="text"
           value={title}
           onChange={changeTitleHandler}
@@ -96,6 +97,7 @@ const RightBar = ({
       <div className="input_field">
         <label htmlFor="description">Description</label>
         <textarea
+          maxLength={120}
           onChange={changeDescriptionHandler}
           value={description}
           rows={4}
