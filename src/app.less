@@ -1,0 +1,476 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Убираем внутренние отступы */
+ul[class],
+ol[class] {
+    padding: 0;
+}
+
+html {
+    overflow: hidden;
+}
+
+/* Убираем внешние отступы */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+/* Выставляем основные настройки по-умолчанию для body */
+body {
+    min-height: 100vh;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
+    line-height: 1.5;
+}
+
+/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
+ul[class],
+ol[class] {
+    list-style: none;
+}
+
+/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Упрощаем работу с изображениями */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Указываем понятную периодичность в потоке данных у article*/
+article>*+* {
+    margin-top: 1em;
+}
+
+/* Наследуем шрифты для инпутов и кнопок */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+
+
+@close_button: {
+    .close_button {
+        position: absolute;
+        top: 0;
+        right: 10px;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+        transform: rotate(45deg);
+        z-index: 10;
+    }
+}
+
+@input_field: {
+    .input_field {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin: 20px 0;
+
+        input {
+            border: none;
+            border-bottom: 1px solid;
+            width: 100%;
+
+            &:focus-visible {
+                outline: none;
+                box-shadow: 0px 1px 2px -1px green;
+                border-bottom: 1px solid green;
+            }
+        }
+    }
+}
+
+@upload_files_container: {
+    .upload_files_container {
+        display: flex;
+        justify-content: start;
+        margin-top: 10px;
+
+        .upload_file_preview {
+            width: 100px;
+            max-height: 150px;
+            margin: 0 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+
+            @close_button();
+
+            .close_button {
+                top: -15px;
+                right: 0;
+            }
+
+            a {
+                text-decoration: none;
+                font-weight: bold;
+                color: black;
+                border: 1px solid;
+                text-align: center;
+            }
+
+            .name {
+                width: 100%;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                text-align: left;
+            }
+        }
+    }
+
+    .fake_inpit_button {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        background-color: white;
+        border: 1px solid;
+        width: 150px;
+        border-radius: 5px;
+        transform: translateX(-50.5%) translateY(-1px);
+        cursor: pointer;
+        box-shadow: 1px 1px 2px 0px black;
+
+        &:hover {
+            transform: translateX(-50%);
+            box-shadow: none;
+        }
+    }
+
+    .fake_inpit_button {
+        position: relative;
+        bottom: 0;
+    }
+}
+
+
+
+.App {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('./utils/images/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    position: fixed;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+
+
+    span {
+        padding: 0 30px;
+        font-size: 18px;
+        color: white;
+    }
+
+    .right_bar {
+        padding: 20px;
+        width: 500px;
+        background: white;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        box-shadow: 10px 10px 10px 10px black;
+        position: relative;
+
+        textarea {
+            width: 100%;
+            resize: none;
+
+            &:focus-visible {
+                outline: none;
+                box-shadow: 1px 2px 2px -1px green;
+            }
+        }
+
+        .delete_button,
+        .save_button {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 30px;
+            cursor: pointer;
+            border-top: 1px solid black;
+            transition: all 0.3s;
+        }
+
+        .delete_button {
+            bottom: 0;
+            &:hover {
+                background: red;
+                color: white;
+            }
+        }
+
+        .save_button {
+            bottom: 30px;
+            &:hover {
+                background: green;
+                color: white;
+            }
+        }
+
+        @input_field();
+        @close_button();
+        @upload_files_container();
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 10px 10px rgba(70, 70, 70, 0.4);
+        border: solid 3px transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        box-shadow: inset 0 0 10px 10px rgba(255, 255, 255, 0.8);
+        border: solid 3px transparent;
+        border-radius: 10px;
+    }
+
+    .task_area {
+        padding: 30px 0;
+        padding-bottom: 50px;
+        width: 100%;
+
+        .add_button {
+            margin: 10px auto;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: black;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            font-weight: bolder;
+            cursor: pointer;
+            padding-bottom: 10px;
+        }
+
+        .task_list {
+            height: calc(100% - 50px);
+            padding: 0 30px;
+            overflow-y: overlay;
+
+
+            .completed_task_point {
+                background-color: rgba(255, 255, 255, 0.7);
+                padding: 5px 10px;
+                border-radius: 5px;
+                margin: 10px 0;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: max-content;
+
+                .arrow {
+                    width: 7px;
+                    margin-right: 10px;
+                    height: 7px;
+                    border-right: 1.5px solid;
+                    border-bottom: 1.5px solid;
+                    transform: rotate(45deg) translateY(-3px);
+
+                    &.close {
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+
+            .task {
+                background-color: rgba(255, 255, 255, 0.9);
+                padding: 5px;
+                color: black;
+                border-radius: 5px;
+                margin: 3px 0;
+                display: flex;
+                padding-left: 30px;
+                position: relative;
+
+                &.completed {
+                    text-decoration: line-through;
+                    color: rgba(0, 0, 0, 0.6);
+                }
+
+                .files {
+                    &::after {
+                        content: '•';
+                        position: absolute;
+                        left: 5px;
+                    }
+
+                    position: relative;
+                    background: url('./utils/images/file_icon.png') no-repeat 20px 4px;
+                    background-size: 14px;
+                    padding-left: 35px;
+                    font-size: 16px;
+                    color: black;
+                }
+
+                .complete_marker {
+                    position: absolute;
+                    top: 7px;
+                    left: 5px;
+                    border-radius: 50%;
+                    width: 20px;
+                    height: 20px;
+                    border: 1px solid;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: rgb(143, 143, 143);
+                    }
+
+                    &:hover::after {
+                        content: '';
+                        width: 9px;
+                        height: 10px;
+                        border-left: 2px solid;
+                        border-bottom: 2px solid;
+                        transform: rotate(-45deg) translate(2px, 5px);
+                        position: absolute;
+                    }
+
+                    &.completed {
+                        background-color: rgb(143, 143, 143);
+
+                        &:hover {
+                            background-color: rgb(197, 197, 197);
+
+                            &::after {
+                                opacity: 0.4;
+                            }
+                        }
+
+                        &::after {
+                            content: '';
+                            width: 9px;
+                            height: 10px;
+                            border-left: 2px solid;
+                            border-bottom: 2px solid;
+                            transform: rotate(-45deg) translate(2px, 5px);
+                            position: absolute;
+                        }
+
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    animation: overlay 0.3s ease;
+
+    .pop_up {
+        padding: 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 500px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+        animation: popup 0.3s ease;
+        @close_button();
+
+        .error {
+            position: absolute;
+            color: red;
+            width: max-content;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+
+        .create_task_button {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            background-color: white;
+            border: 1px solid;
+            width: 150px;
+            border-radius: 5px;
+            transform: translateX(-50.5%) translateY(-1px);
+            cursor: pointer;
+            box-shadow: 1px 1px 2px 0px black;
+
+            &:hover {
+                transform: translateX(-50%);
+                box-shadow: none;
+            }
+        }
+
+
+
+        @upload_files_container();
+        @input_field()
+    }
+}
+
+@keyframes popup {
+    0% {
+        transform: translate(-50%, 1000px) scale(0.1);
+    }
+
+    100% {
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes overlay {
+    0% {
+        background-color: rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+}
