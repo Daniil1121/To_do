@@ -155,6 +155,7 @@ const RightBar = ({
         setPending={setPending}
         setFiles={setFiles}
       />
+      {error && <span className="error">{error}</span>}
       <div className="save_button" onClick={saveTaskChanges}>
         Сохранить изменения
       </div>

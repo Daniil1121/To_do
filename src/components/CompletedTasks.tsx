@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { ICompletedTasksProps, ITask } from "../utils/interfaces";
 import Task from "./Task";
 
@@ -26,6 +26,7 @@ const CompletedTasks = ({
   setSelectedTask,
 }: ICompletedTasksProps): React.ReactElement => {
   const [showTasks, setShowTasks] = useState<boolean>(true);
+
   /**
    * блок, хранящий разметку с выполненными задачами
    * @memberof Completed_Tasks_Component
@@ -59,4 +60,4 @@ const CompletedTasks = ({
   return <>{COMPLETED_TASKS}</>;
 };
 
-export default CompletedTasks;
+export default memo(CompletedTasks);

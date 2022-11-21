@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { IOverdueTasksProps, ITask } from "../utils/interfaces";
 import Task from "./Task";
 
@@ -58,4 +58,4 @@ const OverdueTasks = ({
   return <>{OVERDUE_TASKS}</>;
 };
 
-export default OverdueTasks;
+export default memo(OverdueTasks);

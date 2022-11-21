@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import CompletedTasks from "./CompletedTasks";
 import Task from "./Task";
 import dayjs from "dayjs";
@@ -33,8 +33,10 @@ const TaskList = (): React.ReactElement => {
   useEffect(() => {
     getAllTask(setTasks);
   }, []);
+  const [overdueTasksArray, completedTasksArray, activeTask] = useMemo(() => {
+    return sortTask(tasks);
+  }, [tasks]);
 
-  const [overdueTasksArray, completedTasksArray, activeTask] = sortTask(tasks);
   /**
    * callback для запуска процесса создания задачи
    * @memberof Task_List_Component
@@ -70,19 +72,23 @@ const TaskList = (): React.ReactElement => {
    * блок с активными задачами
    * @memberof Task_List_Component
    */
-  const ACTIVE_TASK = activeTask.map((item: ITask) => (
-    <Task
-      setSelectedTask={setSelectedTask}
-      updateOrDeleteTaskHandler={updateOrDeleteTaskHandler}
-      key={item.id}
-      id={item.id}
-      completed={item.completed}
-      title={item.title}
-      date={item.date}
-      description={item.description}
-      files={item.files || []}
-    />
-  ));
+  const ACTIVE_TASK = useMemo(
+    () =>
+      activeTask.map((item: ITask) => (
+        <Task
+          setSelectedTask={setSelectedTask}
+          updateOrDeleteTaskHandler={updateOrDeleteTaskHandler}
+          key={item.id}
+          id={item.id}
+          completed={item.completed}
+          title={item.title}
+          date={item.date}
+          description={item.description}
+          files={item.files || []}
+        />
+      )),
+    [tasks]
+  );
 
   return (
     <>

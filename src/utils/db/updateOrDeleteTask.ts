@@ -18,7 +18,7 @@ const updateOrDeleteTask = (
   const updates = {};
   //@ts-ignore
   updates["/task/" + id] = task;
-  console.log(task, id);
+
   update(ref(db), updates)
     .then(() => {
       if (task) {
