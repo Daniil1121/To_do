@@ -14,9 +14,20 @@ const firebaseConfig = {
   messagingSenderId: "827945779575",
   appId: "1:827945779575:web:157d27a680101f268a2172",
 };
-
+/**
+ * функция инициализации подключения к firebase
+ */
 initializeApp(firebaseConfig);
+/**
+ * @namespace App
+ */
 
+/**
+ * Главный компонент приложения
+ * @memberof App
+ * @type {React.FC}
+ * @returns {React.ReactElement} - список задач
+ */
 function App() {
   return (
     <div className="App">

@@ -8,12 +8,22 @@ import PopUp from "./PopUp";
 import OverdueTasks from "./OverdueTasks";
 import RightBar from "./RightBar";
 import getAllTask from "./../utils/db/getAllTask";
-import { set, DatabaseReference } from "firebase/database";
+import { DatabaseReference } from "firebase/database";
 import updateOrDeleteTask from "../utils/db/updateOrDeleteTask";
-import AddNewTask from "../utils/db/AddNewTask";
 import { ITask } from "../utils/interfaces";
 import sortTask from "../utils/sortTask";
-import { deleteObject, getStorage, ref } from "firebase/storage";
+import addNewTask from "../utils/db/AddNewTask";
+
+/**
+ * @namespace Task_List_Component
+ */
+
+/**
+ * Компонент, используемый для отображения списка задач
+ * @memberof Task_List_Component
+ * @type {React.FC}
+ * @returns {React.ReactElement} - список задач
+ */
 
 const TaskList = (): React.ReactElement => {
   const [tasks, setTasks] = useState<ITask[] | []>([]);
@@ -25,25 +35,41 @@ const TaskList = (): React.ReactElement => {
   }, []);
 
   const [overdueTasksArray, completedTasksArray, activeTask] = sortTask(tasks);
-
+  /**
+   * callback для запуска процесса создания задачи
+   * @memberof Task_List_Component
+   * @param {ITask} task - тело новой задачи
+   * @param {DatabaseReference} newPostRef - ссылка на базу данных
+   */
   const AddNewTaskHandler = useCallback(
     (task: ITask, newPostRef: DatabaseReference) => {
-      AddNewTask(task, newPostRef, setTasks);
+      addNewTask(task, newPostRef, setTasks);
     },
     [tasks]
   );
-
+  /**
+   * callback для запуска процесса обновления задачи
+   * @memberof Task_List_Component
+   * @param {ITask | null} task - тело новой задачи или null для удаления задачи
+   * @param {string} id - id задачи
+   */
   const updateOrDeleteTaskHandler = useCallback(
     (task: ITask | null, id: string): void => {
       updateOrDeleteTask(task, id, setTasks);
     },
     [tasks]
   );
-
+  /**
+   * функция включения/выключения отображения popup
+   * @memberof Task_List_Component
+   */
   const popUpToogleHandler = useCallback((): void => {
     setPopUpToggle((prev) => !prev);
   }, [tasks]);
-
+  /**
+   * блок с активными задачами
+   * @memberof Task_List_Component
+   */
   const ACTIVE_TASK = activeTask.map((item: ITask) => (
     <Task
       setSelectedTask={setSelectedTask}
@@ -57,8 +83,6 @@ const TaskList = (): React.ReactElement => {
       files={item.files || []}
     />
   ));
-
-  console.log(window.innerWidth, window.outerWidth);
 
   return (
     <>

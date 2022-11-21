@@ -6,12 +6,25 @@ import AddFileComponent from "./AddFileComponent";
 import { DatabaseReference } from "firebase/database";
 import deleteAllFile from "./../utils/db/deleteAllFiles";
 import getNewKey from "./../utils/db/getNewKey";
-import { IFileData, ITask } from "../utils/interfaces";
+import { IFileData, IPopUpProps } from "../utils/interfaces";
 
-interface IPopUpProps {
-  popUpToogleHandler: () => void;
-  AddNewTaskHandler: (task: ITask, newPostRef: DatabaseReference) => void;
-}
+/**
+ * @namespace Pop_Up_Component
+ */
+
+/**
+ * @interface IPopUpProps
+ * @property {function} popUpToogleHandler - функция, слушатель клика для создания и удаления popup
+ * @property {function} AddNewTaskHandler - функция для добавления новой задачи
+ */
+
+/**
+ * Компонент, используемый для создания новой задачи
+ * @memberof Pop_Up_Component
+ * @type {React.FC}
+ * @returns {React.ReactElement} - Всплывающее окно
+ * @param {IPopUpProps} props - Входные данные компоненты
+ */
 
 const PopUp = ({
   popUpToogleHandler,
@@ -28,17 +41,21 @@ const PopUp = ({
   useEffect(() => {
     getNewKey(setNewKey);
   }, []);
-
+  /**
+   * функция слушатель,отлавливает клик по клавиатуре и устанавливает значение заголовка
+   * @memberof Pop_Up_Component
+   * @param {React.ChangeEvent<HTMLInputElement>} event - событие клика по клавиатуре
+   */
   const changeTitleHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setError("");
     setTitle(e.target.value);
   };
 
-  const closePopUpHandler = () => {
-    deleteAllFile(files, newKey!.key!);
-    popUpToogleHandler();
-  };
-
+  /**
+   * функция слушатель,отлавливает клик по клавиатуре и устанавливает значение описания
+   * @memberof Pop_Up_Component
+   * @param {React.ChangeEvent<HTMLInputElement>} event - событие клика по клавиатуре
+   */
   const changeDescriptionHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -46,24 +63,32 @@ const PopUp = ({
     setdescription(e.target.value);
   };
 
+  /**
+   * функция запускает popUpToogleHandler(), закрывая popup. Запускает удаление всех файлов из создаваемой задачи
+   * @memberof Pop_Up_Component
+   */
+  const closePopUpHandler = () => {
+    deleteAllFile(files, newKey!.key!);
+    popUpToogleHandler();
+  };
+  /**
+   * функция выполняет проверку заполненности полей title, description и date. В случае успеха, запускает создание задачи
+   * @memberof Pop_Up_Component
+   */
   const createNewTask = (): void => {
     if (title && description && date) {
-      if (date instanceof Date) {
-        AddNewTaskHandler(
-          {
-            id: newKey!.key!,
-            title,
-            description,
-            date: `${date}`,
-            completed: false,
-            files,
-          },
-          newKey!
-        );
-        popUpToogleHandler();
-      } else {
-        setError("Введите корректную дату");
-      }
+      AddNewTaskHandler(
+        {
+          id: newKey!.key!,
+          title,
+          description,
+          date: `${date}`,
+          completed: false,
+          files,
+        },
+        newKey!
+      );
+      popUpToogleHandler();
     } else {
       setError("Все поля должны быть заполнены");
     }

@@ -3,13 +3,26 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AddFileComponent from "./AddFileComponent";
 import deleteAllFile from "./../utils/db/deleteAllFiles";
-import { IFileData, ITask } from "./../utils/interfaces";
+import { IFileData, IRightBarProps, ITask } from "./../utils/interfaces";
 
-type IRightBarProps = {
-  setSelectedTask: (_: null) => void;
-  selectedTask: ITask;
-  updateOrDeleteTaskHandler: (task: ITask | null, id: string) => void;
-};
+/**
+ * @namespace Right_Bar_component
+ */
+
+/**
+ * @interface IRightBarProps
+ * @property { React.Dispatch<React.SetStateAction<null | ITask>>} setSelectedTask - функция для закрытия бара путём зануления выбранной задачи
+ * @property {function} updateOrDeleteTaskHandler - функция для обновления задачи
+ * @property {ITask}  selectedTask - выбранная задача
+ */
+
+/**
+ * Компонент, используемый для создания новой задачи
+ * @memberof Right_Bar_component
+ * @type {React.FC}
+ * @returns {React.ReactElement} - правый бар для управления задачей
+ * @param {IRightBarProps} props - Входные данные компонента
+ */
 
 const RightBar = ({
   setSelectedTask,
@@ -41,19 +54,31 @@ const RightBar = ({
   useEffect(() => {
     saveTaskChanges();
   }, [files]);
-
+  /**
+   * функция слушатель,отлавливает клик по клавиатуре и устанавливает значение заголовка
+   * @memberof Right_Bar_component
+   * @param {React.ChangeEvent<HTMLInputElement>} event - событие клика по клавиатуре
+   */
   const changeTitleHandler = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setError("");
     setTitle(e.target.value);
   };
 
+  /**
+   * функция слушатель,отлавливает клик по клавиатуре и устанавливает значение описания
+   * @memberof Right_Bar_component
+   * @param {React.ChangeEvent<HTMLInputElement>} event - событие клика по клавиатуре
+   */
   const changeDescriptionHandler = (
     e: React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
     setError("");
     setdescription(e.target.value);
   };
-
+  /**
+   * функция выполняет проверку заполненности полей title, description и date. В случае успеха, запускает обновление задачи
+   * @memberof Right_Bar_component
+   */
   const saveTaskChanges = (): void => {
     if (title && description && date) {
       updateOrDeleteTaskHandler(
@@ -71,7 +96,10 @@ const RightBar = ({
       setError("Все поля должны быть заполнены");
     }
   };
-
+  /**
+   * функция выполняет запускает удаление задачи и вложенных файлов
+   * @memberof Right_Bar_component
+   */
   const deleteTask = (): void => {
     updateOrDeleteTaskHandler(null, id);
     deleteAllFile(files, id);

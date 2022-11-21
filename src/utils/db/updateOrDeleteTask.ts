@@ -1,6 +1,14 @@
 import { getDatabase, update, ref } from "firebase/database";
 import { ITask } from "./../interfaces";
 
+/**
+ * Функция удаления или обновления задачи
+ * @memberof Clien_Server_Function
+ * @param {ITask | null} task - новая задача (может быть null, для удаления задачи)
+ * @param {string} id - id изменяемой задачи
+ * @param {React.Dispatch<React.SetStateAction<ITask[]>>} setTasks - функция Dispacth из useState для обновления массива задач на клиенте
+ */
+
 const updateOrDeleteTask = (
   task: ITask | null,
   id: string,

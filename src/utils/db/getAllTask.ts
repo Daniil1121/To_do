@@ -1,6 +1,12 @@
 import { getDatabase, ref, get, child } from "firebase/database";
 import { ITask } from "./../interfaces";
 
+/**
+ * Функция получения массива задач
+ * @memberof Clien_Server_Function
+ * @param {React.Dispatch<React.SetStateAction<ITask[]>>} setTasks - - функция Dispacth из useState для обновления массива задач на клиенте
+ */
+
 const getAllTask = (
   setTasks: React.Dispatch<React.SetStateAction<ITask[]>>
 ) => {

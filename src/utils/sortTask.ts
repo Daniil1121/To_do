@@ -1,5 +1,9 @@
 import { ITask } from "./interfaces";
-
+/**
+ * функция сортировки списка задач на активные, выполненные и просроченные
+ * @param {ITask[]} tasks
+ * @returns {ITask[]}
+ */
 const sortTask = (tasks: ITask[]) => {
   const inactiveTasks: ITask[] = tasks.filter(
     (item) => new Date() > new Date(item.date) || item.completed

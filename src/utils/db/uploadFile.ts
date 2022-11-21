@@ -6,6 +6,18 @@ import {
 } from "firebase/storage";
 import { IFileData } from "../interfaces";
 
+/**
+ * Функция загрузки файлов на сервер и отображения их на клиенте
+ * @memberof Clien_Server_Function
+ * @param {React.ChangeEvent<HTMLInputElement>} e - событие клика мыши
+ * @param {React.Dispatch<React.SetStateAction<string>>} setError - - функция Dispacth из useState для установки значения ошибки
+ * @param {React.Dispatch<React.SetStateAction<boolean>>} setPending - - функция Dispacth из useState для установки флага загрузки
+ * @param {React.Dispatch<React.SetStateAction<IFileData[]>>} setFiles - - функция Dispacth из useState для обновления массива тасков на клиенте
+ * @param {taskId} taskId - новая задача (может быть null, для удаления задачи)
+ * @param {boolean} duplicateNameMarker - новая задача (может быть null, для удаления задачи)
+ *
+ */
+
 const uploadFiles = (
   e: React.ChangeEvent<HTMLInputElement>,
   setError: React.Dispatch<React.SetStateAction<string>>,

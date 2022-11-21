@@ -1,13 +1,26 @@
 import React, { memo, useState } from "react";
 import dayjs from "dayjs";
 import ruLocale from "dayjs/locale/ru";
-import { ITask } from "./../utils/interfaces";
+import { ITask, ITaskProps } from "./../utils/interfaces";
 
-type ITaskProps = {
-  setSelectedTask: (task: ITask) => void;
-} & ITask & { overdue?: boolean } & {
-    updateOrDeleteTaskHandler: (task: ITask | null, id: string) => void;
-  };
+/**
+ * @namespace Task_Component
+ */
+
+/**
+ * @interface ITaskProps
+ * @property {ITask} task - задача
+ * @property {function} updateOrDeleteTaskHandler - функция для обновления или удаления задачи
+ * @property {function}  setSelectedTask - функция для открытия правого бара
+ */
+
+/**
+ * Компонент, используемый для отображения задачи
+ * @memberof Task_Component
+ * @type {React.FC}
+ * @returns {React.ReactElement} - блок задачи
+ * @param {ITaskProps} props - Входные данные компонента
+ */
 
 const Task = ({
   title,
@@ -20,6 +33,10 @@ const Task = ({
   updateOrDeleteTaskHandler = () => {},
   setSelectedTask,
 }: ITaskProps): React.ReactElement => {
+  /**
+   * функция при клике запускает обновление задачи, меняя флаг completed на противоположный
+   * @param {React.MouseEvent} event - событие клика мыши
+   */
   const toogleCompleteTaskHandler = (e: React.MouseEvent): void => {
     e.stopPropagation();
     updateOrDeleteTaskHandler(

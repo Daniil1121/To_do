@@ -1,16 +1,19 @@
 import React, { useRef } from "react";
 import uploadFiles from "./../utils/db/uploadFile";
 import deleteFile from "./../utils/db/deleteFile";
-import { IFileData } from "../utils/interfaces";
+import { IAddFileComponent, IFileData } from "../utils/interfaces";
 
-interface IAddFileComponent {
-  taskId: string;
-  files: IFileData[];
-  pending: boolean;
-  setError: React.Dispatch<React.SetStateAction<string>>;
-  setPending: React.Dispatch<React.SetStateAction<boolean>>;
-  setFiles: React.Dispatch<React.SetStateAction<IFileData[]>>;
-}
+/**
+ * @namespace Add_File_Component
+ */
+
+/**
+ * Компонент, используемый для загрузки файлов
+ * @memberof Add_File_Component
+ * @type {React.FC}
+ * @returns {React.ReactElement} Компоненту, используемую для добавления файлов
+ * @param {IAddFileComponent} props - Входные данные компоненты
+ */
 
 const AddFileComponent = ({
   taskId,
@@ -21,11 +24,18 @@ const AddFileComponent = ({
   setFiles,
 }: IAddFileComponent): React.ReactElement => {
   const inputRef = useRef<HTMLInputElement>(null);
-
+  /**
+   * функция onclick, передающая клик на input[type='file']
+   * @memberof Add_File_Component
+   */
   const inputClickHandler = () => {
     inputRef.current?.click();
   };
-
+  /**
+   * функция слушатель, сравнивает имена файлов из массива и нового файла, в случае совпадения, меняет флаг duplicateNameMarker на true, запускает функцию uploadFiles
+   * @memberof Add_File_Component
+   * @param {React.ChangeEvent<HTMLInputElement>} event - событие клика
+   */
   const uploadFilesHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     let duplicateNameMarker = false;
     if (files.some((item) => item.name === e.target.files![0].name)) {
@@ -33,7 +43,10 @@ const AddFileComponent = ({
     }
     uploadFiles(e, setError, setPending, setFiles, taskId, duplicateNameMarker);
   };
-
+  /**
+   * блок, в котором хранится разметка для файлов типа image
+   * @memberof Add_File_Component
+   */
   const IMAGES_BLOCK = files
     .filter((item) => item.type.includes("image"))
     .map((item) => (
@@ -58,7 +71,10 @@ const AddFileComponent = ({
         <span>{item.name}</span>
       </div>
     ));
-
+  /**
+   * блок, в котором хранится разметка для файлов, кроме image
+   * @memberof Add_File_Component
+   */
   const OTHER_FILES_BLOCK = files
     .filter((item) => !item.type.includes("image"))
     .map((item) => (

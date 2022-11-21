@@ -1,12 +1,24 @@
 import React, { useState } from "react";
-import { ITask } from "../utils/interfaces";
+import { ICompletedTasksProps, ITask } from "../utils/interfaces";
 import Task from "./Task";
 
-type ICompletedTasksProps = {
-  updateOrDeleteTaskHandler: (task: ITask | null, id: string) => void;
-} & {
-  setSelectedTask: (task: ITask) => void;
-} & { completedTasksArray: ITask[] };
+/**
+ * @namespace Completed_Tasks_Component
+ */
+
+/**
+ * @interface ICompletedTasksProps
+ * @property {function} updateOrDeleteTaskHandler - функция, которая обновляет или удаляет задачу на сервере и клиенте
+ * @property {function} setSelectedTask - функция, которая открывает бар для выбранной задачи
+ * @property {ITask[]} completedTasksArray - массив выполненных задач
+ */
+
+/**
+ * @memberof Completed_Tasks_Component
+ * @type {React.FC}
+ * @returns {React.ReactElement} - Компоненту, используемую для отображения выполненных задач
+ * @param {ICompletedTasksProps} props - Входные данные компоненты
+ */
 
 const CompletedTasks = ({
   completedTasksArray,
@@ -14,7 +26,10 @@ const CompletedTasks = ({
   setSelectedTask,
 }: ICompletedTasksProps): React.ReactElement => {
   const [showTasks, setShowTasks] = useState<boolean>(true);
-
+  /**
+   * блок, хранящий разметку с выполненными задачами
+   * @memberof Completed_Tasks_Component
+   */
   const COMPLETED_TASKS = (
     <div className="completed_task">
       <div
